@@ -5,6 +5,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 
 abstract class PagingSourceHelper<T : Any> : PagingSource<Int, T>() {
+    abstract fun getPageSize():Int
     abstract suspend fun getEntities(pageNo: Int, limit: Int): List<T>
     abstract suspend fun getEntitiesFromServer(pageNo: Int, limit: Int)
     override fun getRefreshKey(state: PagingState<Int, T>): Int? {
@@ -20,16 +21,16 @@ abstract class PagingSourceHelper<T : Any> : PagingSource<Int, T>() {
         return try {
             var entities = getEntities(
                 page,
-                params.loadSize
+                getPageSize()
             )
-            if (entities.isEmpty() || entities.size < params.loadSize) {
+            if (entities.isEmpty() || entities.size < getPageSize()) {
                 getEntitiesFromServer(
                     page,
-                    params.loadSize
+                    getPageSize()
                 )
                 entities = getEntities(
                     page,
-                    params.loadSize
+                    getPageSize()
                 )
             }
             LoadResult.Page(

@@ -7,8 +7,6 @@ import com.sample.catapp.network.ApiService
 import com.sample.catapp.network.networkHandler.ApiResult
 import com.sample.catapp.network.networkHandler.onSuccess
 import com.sample.catdetails.CatItem
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 

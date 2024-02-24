@@ -65,23 +65,31 @@ class CatListViewModel @Inject constructor(
 
     fun fetchCatList() {
         _state.update {
-            _state.value.copy(data = Pager(
-                PagingConfig(
-                    pageSize = PAGE_SIZE,
-                    enablePlaceholders = false,
-                    prefetchDistance = PAGE_SIZE
-                ),
-            ) {
-                pagingSource = CatListPagingSource(dispatcher = dispatcher,fetchListUseCase = fetchListUseCase)
-                pagingSource
-            }.flow.flowOn(dispatcher.io)
-                .cachedIn(viewModelScope))
+            _state.value.copy(
+                data = Pager(
+                    PagingConfig(
+                        pageSize = PAGE_SIZE,
+                        enablePlaceholders = false,
+                        prefetchDistance = PAGE_SIZE
+                    ),
+                ) {
+                    pagingSource = CatListPagingSource(
+                        dispatcher = dispatcher,
+                        pageSize = PAGE_SIZE,
+                        fetchListUseCase = fetchListUseCase
+                    )
+                    pagingSource
+                }.flow.flowOn(dispatcher.io)
+                    .cachedIn(viewModelScope)
+            )
         }
     }
-    fun invalidate(){
-        if(::pagingSource.isInitialized)
+
+    fun invalidate() {
+        if (::pagingSource.isInitialized)
             pagingSource.invalidate()
     }
+
     @VisibleForTesting
     fun setLoadingFalse() {
         _state.update {

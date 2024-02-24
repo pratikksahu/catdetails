@@ -12,9 +12,12 @@ import kotlinx.coroutines.withContext
 
 class CatListPagingSource(
     private val dispatcher: AppCoroutineDispatcher,
+    private val pageSize:Int,
     private val fetchListUseCase: FetchListUseCase
 ) :
     PagingSourceHelper<CatItem>() {
+    override fun getPageSize(): Int  = pageSize
+
     override suspend fun getEntities(pageNo: Int, limit: Int): List<CatItem> {
         return withContext(dispatcher.io) {
             fetchListUseCase.fromLocal(pageNo, limit)
