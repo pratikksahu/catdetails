@@ -14,5 +14,5 @@ interface ICatRepository {
         pageLimit: Int
     ): List<CatEntity>
 
-    fun getCatDetail(catId: String): CatItem
+    suspend fun getCatDetail(catId: String): CatItem
 }

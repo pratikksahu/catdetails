@@ -31,7 +31,7 @@ class CatRepository @Inject constructor(
         return catDAO.getCats(pageNo * pageLimit, pageLimit)
     }
 
-    override fun getCatDetail(catId: String): CatItem = catDAO.getCatDetail(catId = catId).mapApiResponseToUiCatData()
+    override suspend fun getCatDetail(catId: String): CatItem = catDAO.getCatDetail(catId = catId).mapApiResponseToUiCatData()
 }
 
 
