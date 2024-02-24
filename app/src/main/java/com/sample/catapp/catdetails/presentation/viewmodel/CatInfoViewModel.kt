@@ -11,6 +11,7 @@ import com.sample.catapp.catdetails.presentation.CatIntents
 import com.sample.catapp.dispatcher.AppCoroutineDispatcher
 import com.sample.catdetails.CatItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 
@@ -27,8 +29,6 @@ class CatInfoViewModel @Inject constructor(
     private val fetchListUseCase: FetchListUseCase
 ) : ViewModel() {
 
-    @VisibleForTesting
-    var pageNo = 0
     private val _state = MutableStateFlow(CatViewModelState())
 
     val uiState = _state
@@ -66,7 +66,6 @@ class CatInfoViewModel @Inject constructor(
 
     }
 
-    @VisibleForTesting
     fun fetchCatList() {
         _state.update {
             _state.value.copy(data = Pager(
@@ -82,7 +81,10 @@ class CatInfoViewModel @Inject constructor(
                 .cachedIn(viewModelScope))
         }
     }
-
+    fun invalidate(){
+        if(::pagingSource.isInitialized)
+            pagingSource.invalidate()
+    }
     @VisibleForTesting
     fun setLoadingFalse() {
         _state.update {

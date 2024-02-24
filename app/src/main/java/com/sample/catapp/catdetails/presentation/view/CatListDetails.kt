@@ -13,10 +13,14 @@ import com.sample.catapp.catdetails.presentation.viewmodel.CatInfoViewModel
 @Composable
 fun CatList(navController: NavHostController, viewModel: CatInfoViewModel) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    ListOfCats(uiState = uiState, onItemClick = {
-        viewModel.fireIntent(CatIntents.SelectCat(it))
-        navController.navigate(CatsDestinations.CAT_DETAIL_ROUTE)
-    })
+    ListOfCats(uiState = uiState,
+        retry = {
+            viewModel.invalidate()
+        },
+        onItemClick = {
+            viewModel.fireIntent(CatIntents.SelectCat(it))
+            navController.navigate(CatsDestinations.CAT_DETAIL_ROUTE)
+        })
 }
 
 @Composable

@@ -1,5 +1,6 @@
 package com.sample.catdetails.view.catlist
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,6 +12,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -34,6 +36,7 @@ import com.sample.catdetails.view.common.CustomProgressBar
 @Composable
 fun ListOfCats(
     uiState: CatUiState,
+    retry: () -> Unit,
     onItemClick: (CatItem) -> Unit
 ) {
     Box(
@@ -43,7 +46,11 @@ fun ListOfCats(
         when (uiState) {
             is CatUiState.NoCatData -> {
                 if (uiState.isLoading) {
-                    CustomProgressBar(Modifier.size(24.dp))
+                    Column {
+                        repeat(6){
+                            CatShimmerLoader()
+                        }
+                    }
                 } else {
                     Text(
                         text = uiState.errorMessage
@@ -64,6 +71,7 @@ fun ListOfCats(
                     CatList(modifier = Modifier.fillMaxSize(),
                         gridCell = 2,
                         catItems = catItems,
+                        retry = retry,
                         onItemClick = onItemClick
                     )
                 }
@@ -77,6 +85,7 @@ fun CatList(
     modifier: Modifier,
     gridCell: Int = 2,
     catItems: LazyPagingItems<CatItem>,
+    retry:() -> Unit,
     onItemClick: (CatItem) -> Unit
 ) {
     val error by remember(catItems.loadState) {
@@ -92,40 +101,50 @@ fun CatList(
             }
         }
     }
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(gridCell),
-        contentPadding = PaddingValues(16.dp),
-        modifier = modifier
-    ) {
-        error?.let {
-            item(span = { GridItemSpan(gridCell) }) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 10.dp),
-                    text = it
-                )
+    AnimatedContent(targetState = error.isNullOrEmpty(), label = "") {
+        if(it){
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(gridCell),
+                contentPadding = PaddingValues(16.dp),
+                modifier = modifier
+            ) {
+                if (catItems.loadState.refresh == LoadState.Loading) {
+                    items(6){
+                        CatShimmerLoader()
+                    }
+                }
+                items(
+                    count = catItems.itemCount,
+                    key = catItems.itemKey { it.id },
+                    contentType = catItems.itemContentType { item -> item }) {
+                    catItems[it]?.let{
+                        CatItemCard(
+                            catItem = it,
+                            onItemClick = onItemClick
+                        )
+                    }
+                }
+                if (catItems.loadState.append == LoadState.Loading) {
+                    items(6){
+                        CatShimmerLoader()
+                    }
+                }
             }
-        }
-        if (catItems.loadState.refresh == LoadState.Loading) {
-            item(span = { GridItemSpan(gridCell) }) {
-                CustomProgressBar(Modifier.size(24.dp))
-            }
-        }
-        items(
-            count = catItems.itemCount,
-            key = catItems.itemKey { it.id },
-            contentType = catItems.itemContentType { item -> item }) {
-            catItems[it]?.let{
-                CatItemCard(
-                    catItem = it,
-                    onItemClick = onItemClick
-                )
-            }
-        }
-        if (catItems.loadState.append == LoadState.Loading) {
-            item(span = { GridItemSpan(gridCell) }) {
-                CustomProgressBar(Modifier.size(24.dp))
+        }else{
+            Box(modifier = Modifier.fillMaxSize()) {
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        modifier = Modifier
+                            .padding(vertical = 10.dp),
+                        text = error ?: ""
+                    )
+                    Button(onClick = retry) {
+                        Text(text = "Retry")
+                    }
+                }
             }
         }
     }

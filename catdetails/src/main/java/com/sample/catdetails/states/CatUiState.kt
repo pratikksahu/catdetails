@@ -23,6 +23,5 @@ sealed interface CatUiState {
         override val isLoading: Boolean,
         override val errorMessage: String?,
         override val isError: Boolean
-
     ) : CatUiState
 }
