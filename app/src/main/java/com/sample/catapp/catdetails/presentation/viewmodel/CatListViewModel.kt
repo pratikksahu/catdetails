@@ -11,7 +11,6 @@ import com.sample.catapp.catdetails.presentation.CatIntents
 import com.sample.catapp.dispatcher.AppCoroutineDispatcher
 import com.sample.catdetails.CatItem
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -19,12 +18,11 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 
 @HiltViewModel
-class CatInfoViewModel @Inject constructor(
+class CatListViewModel @Inject constructor(
     private val dispatcher: AppCoroutineDispatcher,
     private val fetchListUseCase: FetchListUseCase
 ) : ViewModel() {
@@ -38,9 +36,6 @@ class CatInfoViewModel @Inject constructor(
             SharingStarted.Eagerly,
             _state.value.toUiState()
         )
-
-    private val _stateUiCartItem = MutableStateFlow<CatItem?>(null)
-    val catDetailsState: StateFlow<CatItem?> = _stateUiCartItem
 
     lateinit var pagingSource: CatListPagingSource
 
@@ -59,7 +54,9 @@ class CatInfoViewModel @Inject constructor(
             }
 
             is CatIntents.SelectCat -> {
-                _stateUiCartItem.value = catDetailsIntent.obj
+                /**
+                 * Nothing will happen for this intent since Detail viewmodel will handle the fetching
+                 * */
             }
 
         }

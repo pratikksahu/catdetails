@@ -7,21 +7,23 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sample.catapp.catdetails.presentation.view.CatDetails
 import com.sample.catapp.catdetails.presentation.view.CatList
-import com.sample.catapp.catdetails.presentation.viewmodel.CatInfoViewModel
+import com.sample.catapp.catdetails.presentation.viewmodel.CatDetailViewModel
+import com.sample.catapp.catdetails.presentation.viewmodel.CatListViewModel
 
 @Composable
 fun CatAppEntryScreenApp() {
     val navController = rememberNavController()
-    val viewModel: CatInfoViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
-        startDestination = CatsDestinations.CATS_ROUTE
+        startDestination = CatsDestinations.CATS_LIST.route
     ) {
-        composable(CatsDestinations.CATS_ROUTE) {
+        composable(CatsDestinations.CATS_LIST.route) {
+            val viewModel: CatListViewModel = hiltViewModel()
             CatList(navController, viewModel)
         }
-        composable(CatsDestinations.CAT_DETAIL_ROUTE) {
+        composable(CatsDestinations.CAT_DETAIL.route) {
+            val viewModel: CatDetailViewModel = hiltViewModel()
             CatDetails(navController, viewModel)
         }
     }

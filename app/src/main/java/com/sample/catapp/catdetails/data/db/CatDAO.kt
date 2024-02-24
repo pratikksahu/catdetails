@@ -14,4 +14,7 @@ interface CatDAO {
 
     @Query("Select * from ${CatEntity.TABLE_NAME} limit :limit offset :offset")
     fun getCats(offset: Int,limit:Int):List<CatEntity>
+
+    @Query("Select * from ${CatEntity.TABLE_NAME} where id = :catId")
+    fun getCatDetail(catId:String):CatEntity
 }

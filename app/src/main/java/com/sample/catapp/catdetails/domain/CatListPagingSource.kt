@@ -18,7 +18,7 @@ class CatListPagingSource(
     override suspend fun getEntities(pageNo: Int, limit: Int): List<CatItem> {
         return withContext(dispatcher.io) {
             fetchListUseCase.fromLocal(pageNo, limit)
-                .map { mapApiResponseToUiCatData(it) }
+                .map { it.mapApiResponseToUiCatData() }
         }
     }
 

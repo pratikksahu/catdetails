@@ -1,9 +1,10 @@
 package com.sample.catapp
 
-object CatsDestinations {
-    // Route for list of cats
-    const val CATS_ROUTE = "cats_list"
-    // Route for single cat details
-    const val CAT_DETAIL_ROUTE = "cat_detail"
+sealed class CatsDestinations(val route: String) {
+    data object CATS_LIST : CatsDestinations("cats_list")
+    data object CAT_DETAIL : CatsDestinations("cat_detail/{catId}") {
+        fun createRoute(catId: String) = "cat_detail/$catId"
+        fun getParam() = "catId"
+    }
 }
 

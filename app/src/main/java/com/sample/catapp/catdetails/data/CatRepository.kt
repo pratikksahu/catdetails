@@ -2,9 +2,11 @@ package com.sample.catapp.catdetails.data
 
 import com.sample.catapp.catdetails.data.db.CatDAO
 import com.sample.catapp.catdetails.data.network.CatEntity
+import com.sample.catapp.catdetails.presentation.mapApiResponseToUiCatData
 import com.sample.catapp.network.ApiService
 import com.sample.catapp.network.networkHandler.ApiResult
 import com.sample.catapp.network.networkHandler.onSuccess
+import com.sample.catdetails.CatItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -30,6 +32,8 @@ class CatRepository @Inject constructor(
     ): List<CatEntity> {
         return catDAO.getCats(pageNo * pageLimit, pageLimit)
     }
+
+    override fun getCatDetail(catId: String): CatItem = catDAO.getCatDetail(catId = catId).mapApiResponseToUiCatData()
 }
 
 
