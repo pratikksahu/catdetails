@@ -7,7 +7,9 @@ import com.sample.catapp.network.networkHandler.onError
 import com.sample.catapp.network.networkHandler.onException
 import com.sample.catapp.utils.PagingSourceHelper
 import com.sample.catdetails.CatItem
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CatListPagingSource(
