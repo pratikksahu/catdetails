@@ -1,12 +1,12 @@
 package com.sample.catapp.catdetails
 
-import com.sample.catapp.catdetails.data.network.ApiResponse
+import com.sample.catapp.catdetails.data.network.CatEntity
 import com.sample.catapp.catdetails.data.network.Image
 import com.sample.catapp.catdetails.data.network.Weight
 
-fun getMockResponseForApiResponse(): List<ApiResponse> {
+fun getMockResponseForApiResponse(): List<CatEntity> {
     return listOf(
-        ApiResponse(
+        CatEntity(
             weight = Weight(imperial = "10", metric = "5"),
             id = "0",
             name = "Mock Cat",

@@ -1,7 +1,9 @@
 package com.sample.catdetails.states
 
 import androidx.compose.runtime.Stable
+import androidx.paging.PagingData
 import com.sample.catdetails.CatItem
+import kotlinx.coroutines.flow.Flow
 
 
 sealed interface CatUiState {
@@ -17,7 +19,7 @@ sealed interface CatUiState {
 
     @Stable
     data class CatData(
-        val data: List<CatItem> = emptyList(),
+        val data: Flow<PagingData<CatItem>>,
         override val isLoading: Boolean,
         override val errorMessage: String?,
         override val isError: Boolean

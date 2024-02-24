@@ -2,65 +2,67 @@ package com.sample.catapp.catdetails.presentation
 
 import com.sample.catdetails.CatItem
 import com.sample.catdetails.Image
-import com.sample.catapp.catdetails.data.network.ApiResponse
+import com.sample.catapp.catdetails.data.network.CatEntity
 import com.sample.catapp.catdetails.data.network.Weight
 
 object CatBreedMapper {
 
-    fun mapToUiCatItems(apiResponses: List<ApiResponse>): List<CatItem> {
-        return apiResponses.map { apiResponse ->
+    fun mapToUiCatItems(apiRespons: List<CatEntity>): List<CatItem> {
+        return apiRespons.map { apiResponse ->
             mapApiResponseToUiCatData(apiResponse)
         }
     }
 
-    private fun mapApiResponseToUiCatData(apiResponse: ApiResponse): CatItem {
+    fun mapApiResponseToUiCatData(catEntity: CatEntity): CatItem {
         return CatItem(
-            weight = getWeight(apiResponse.weight),
-            id = apiResponse.id,
-            name = apiResponse.name,
-            cfaUrl = apiResponse.cfaUrl,
-            vetstreetUrl = apiResponse.vetstreetUrl,
-            vcahospitalsUrl = apiResponse.vcahospitalsUrl,
-            temperament = apiResponse.temperament,
-            origin = apiResponse.origin,
-            countryCodes = apiResponse.countryCodes,
-            countryCode = apiResponse.countryCode,
-            description = apiResponse.description,
-            lifeSpan = apiResponse.lifeSpan,
-            indoor = apiResponse.indoor,
-            lap = apiResponse.lap,
-            altNames = apiResponse.altNames ?: "",
-            adaptability = apiResponse.adaptability,
-            affectionLevel = apiResponse.affectionLevel,
-            childFriendly = apiResponse.childFriendly,
-            dogFriendly = apiResponse.dogFriendly,
-            energyLevel = apiResponse.energyLevel,
-            grooming = apiResponse.grooming,
-            healthIssues = apiResponse.healthIssues,
-            intelligence = apiResponse.intelligence,
-            sheddingLevel = apiResponse.sheddingLevel,
-            socialNeeds = apiResponse.socialNeeds,
-            strangerFriendly = apiResponse.strangerFriendly,
-            vocalisation = apiResponse.vocalisation,
-            experimental = apiResponse.experimental,
-            hairless = apiResponse.hairless,
-            natural = apiResponse.natural,
-            rare = apiResponse.rare,
-            rex = apiResponse.rex,
-            suppressedTail = apiResponse.suppressedTail,
-            shortLegs = apiResponse.shortLegs,
-            wikipediaUrl = apiResponse.wikipediaUrl,
-            hypoallergenic = apiResponse.hypoallergenic,
-            referenceImageId = apiResponse.referenceImageId,
-            image = getImage(apiResponse.image)
+            weight = getWeight(catEntity.weight),
+            id = catEntity.id,
+            name = catEntity.name,
+            cfaUrl = catEntity.cfaUrl,
+            vetstreetUrl = catEntity.vetstreetUrl,
+            vcahospitalsUrl = catEntity.vcahospitalsUrl,
+            temperament = catEntity.temperament,
+            origin = catEntity.origin,
+            countryCodes = catEntity.countryCodes,
+            countryCode = catEntity.countryCode,
+            description = catEntity.description,
+            lifeSpan = catEntity.lifeSpan,
+            indoor = catEntity.indoor,
+            lap = catEntity.lap,
+            altNames = catEntity.altNames ?: "",
+            adaptability = catEntity.adaptability,
+            affectionLevel = catEntity.affectionLevel,
+            childFriendly = catEntity.childFriendly,
+            dogFriendly = catEntity.dogFriendly,
+            energyLevel = catEntity.energyLevel,
+            grooming = catEntity.grooming,
+            healthIssues = catEntity.healthIssues,
+            intelligence = catEntity.intelligence,
+            sheddingLevel = catEntity.sheddingLevel,
+            socialNeeds = catEntity.socialNeeds,
+            strangerFriendly = catEntity.strangerFriendly,
+            vocalisation = catEntity.vocalisation,
+            experimental = catEntity.experimental,
+            hairless = catEntity.hairless,
+            natural = catEntity.natural,
+            rare = catEntity.rare,
+            rex = catEntity.rex,
+            suppressedTail = catEntity.suppressedTail,
+            shortLegs = catEntity.shortLegs,
+            wikipediaUrl = catEntity.wikipediaUrl,
+            hypoallergenic = catEntity.hypoallergenic,
+            referenceImageId = catEntity.referenceImageId,
+            image = getImage(catEntity.image)
         )
     }
 
-    private fun getWeight(weight: Weight): com.sample.catdetails.Weight {
-        return com.sample.catdetails.Weight(
-            imperial = weight.imperial,
-            metric = weight.metric
-        )
+    private fun getWeight(weight: Weight?): com.sample.catdetails.Weight? {
+        return weight?.let {
+            com.sample.catdetails.Weight(
+                imperial = weight.imperial,
+                metric = weight.metric
+            )
+        }
     }
 
     private fun getImage(image: com.sample.catapp.catdetails.data.network.Image?): Image? {

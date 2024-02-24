@@ -1,10 +1,23 @@
 package com.sample.catapp.catdetails.data.network
 
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import androidx.room.ProvidedTypeConverter
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
-data class ApiResponse(
-    @SerializedName("weight") val weight: Weight,
+@Entity(
+    tableName = CatEntity.TABLE_NAME, indices = [
+        Index(value = arrayOf("id"), unique = true)
+    ]
+)
+data class CatEntity(
+    @PrimaryKey
     @SerializedName("id") val id: String,
+    @SerializedName("weight") val weight: Weight?,
     @SerializedName("name") val name: String,
     @SerializedName("cfa_url") val cfaUrl: String?,
     @SerializedName("vetstreet_url") val vetstreetUrl: String?,
@@ -41,7 +54,11 @@ data class ApiResponse(
     @SerializedName("hypoallergenic") val hypoallergenic: Int,
     @SerializedName("reference_image_id") val referenceImageId: String?,
     @SerializedName("image") val image: Image?
-)
+) {
+    companion object {
+        const val TABLE_NAME = "CATS"
+    }
+}
 
 data class Weight(
     @SerializedName("imperial") val imperial: String,
@@ -54,3 +71,27 @@ data class Image(
     @SerializedName("height") val height: Int?,
     @SerializedName("url") val url: String
 )
+
+class WeightToStringConverter {
+    @TypeConverter
+    fun fromString(value: String): Weight? {
+        return Gson().fromJson(value,Weight::class.java)
+    }
+
+    @TypeConverter
+    fun toString(value: Weight): String {
+        return Gson().toJson(value)
+    }
+}
+class ImageInfoToStringConverter {
+    @TypeConverter
+    fun fromString(value: String): Image? {
+        return Gson().fromJson(value,Image::class.java)
+    }
+
+    @TypeConverter
+    fun toString(value: Image?): String? {
+        return Gson().toJson(value,Image::class.java)
+    }
+}
+

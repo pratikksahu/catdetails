@@ -1,12 +1,15 @@
 package com.sample.catapp.catdetails.data
 
-import com.sample.catapp.catdetails.data.network.ApiResponse
-import com.sample.catapp.catdetails.data.network.NetworkResult
+import com.sample.catapp.catdetails.data.network.CatEntity
+import com.sample.catapp.network.networkHandler.ApiResult
 
 interface ICatRepository {
-    suspend fun fetchCatData(
+    suspend fun fetchCatDataRemote(
         pageNo: Int,
-        order: String,
         pageLimit: Int
-    ): NetworkResult<List<ApiResponse>>
+    ): ApiResult<List<CatEntity>>
+    suspend fun fetchCatDataLocal(
+        pageNo: Int,
+        pageLimit: Int
+    ): List<CatEntity>
 }

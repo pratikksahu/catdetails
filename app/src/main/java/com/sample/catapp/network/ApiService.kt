@@ -1,15 +1,14 @@
 package com.sample.catapp.network
 
-import com.sample.catapp.catdetails.data.network.ApiResponse
-import retrofit2.Response
+import com.sample.catapp.catdetails.data.network.CatEntity
+import com.sample.catapp.network.networkHandler.ApiResult
 import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
+import retrofit2.http.Query
 
 interface ApiService {
-    @Headers("Content-Type: application/json")
     @GET("breeds")
     suspend fun fetchData(
-        @Header("x-api-key") apiKey: String,
-    ): Response<List<ApiResponse>>
+        @Query("limit") limit:Int,
+        @Query("page") page:Int,
+    ): ApiResult<List<CatEntity>>
 }

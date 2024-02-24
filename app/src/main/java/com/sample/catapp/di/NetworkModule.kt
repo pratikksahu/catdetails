@@ -1,6 +1,8 @@
 package com.sample.catapp.di
 
 import com.sample.catapp.network.ApiService
+import com.sample.catapp.network.networkHandler.BasicAuthInterceptor
+import com.sample.catapp.network.networkHandler.ResultCallAdapterFactory
 import com.sample.catapp.utils.BASE_URL
 import com.sample.catapp.utils.CONNECT_TIMEOUT_IN_SECONDS
 import com.sample.catapp.utils.READ_TIMEOUT_IN_SECONDS
@@ -10,6 +12,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -26,6 +29,7 @@ object NetworkModule {
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(ResultCallAdapterFactory.create())
             .build()
     }
 
@@ -33,6 +37,10 @@ object NetworkModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(BasicAuthInterceptor())
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                setLevel(HttpLoggingInterceptor.Level.BODY)
+            })
             .connectTimeout(CONNECT_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS) // Connection timeout
             .readTimeout(READ_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS) // Read timeout
             .writeTimeout(WRITE_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS) // Write timeout

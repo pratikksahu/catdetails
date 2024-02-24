@@ -64,7 +64,10 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.5.0")
 
-
+    val room_version = "2.6.1"
+    implementation("androidx.room:room-paging:$room_version")
+    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
+    implementation("androidx.paging:paging-compose:3.2.1")
     // Multidex
     implementation("androidx.multidex:multidex:2.0.1")
 

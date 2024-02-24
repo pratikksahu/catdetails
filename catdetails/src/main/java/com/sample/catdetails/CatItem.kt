@@ -1,7 +1,7 @@
 package com.sample.catdetails
 
  data class CatItem(
-    val weight: Weight,
+    val weight: Weight?,
     val id: String,
     val name: String,
     val cfaUrl: String?,

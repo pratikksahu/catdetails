@@ -1,22 +1,18 @@
 package com.sample.catapp.catdetails.presentation.viewmodel
 
+import androidx.paging.PagingData
 import com.sample.catdetails.CatItem
 import com.sample.catdetails.states.CatUiState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 data class CatViewModelState(
-    val data: List<CatItem> = emptyList(),
+    val data: Flow<PagingData<CatItem>> = flowOf(),
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val errorMessage: String? = null
 ) {
     fun toUiState(): CatUiState {
-        if (data.isEmpty()) {
-            return CatUiState.NoCatData(
-                isLoading = isLoading,
-                isError = isError,
-                errorMessage = errorMessage
-            )
-        }
         return CatUiState.CatData(
             data = data,
             isLoading = isLoading,
