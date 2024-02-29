@@ -1,8 +1,8 @@
 package com.sample.catapp.catdetails.domain.usecase
 
 import com.sample.catapp.catdetails.data.ICatRepository
-import com.sample.catapp.catdetails.data.network.CatEntity
-import com.sample.catapp.network.networkHandler.ApiResult
+import com.sample.dtomodule.catdetails.database.CatEntity
+import com.sample.network.networkHandler.ApiResult
 import javax.inject.Inject
 
 class FetchListUseCase @Inject constructor(private val repository: ICatRepository) {

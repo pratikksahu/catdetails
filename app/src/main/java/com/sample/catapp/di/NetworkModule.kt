@@ -1,12 +1,12 @@
 package com.sample.catapp.di
 
-import com.sample.catapp.network.ApiService
-import com.sample.catapp.network.networkHandler.BasicAuthInterceptor
-import com.sample.catapp.network.networkHandler.ResultCallAdapterFactory
-import com.sample.catapp.utils.BASE_URL
-import com.sample.catapp.utils.CONNECT_TIMEOUT_IN_SECONDS
-import com.sample.catapp.utils.READ_TIMEOUT_IN_SECONDS
-import com.sample.catapp.utils.WRITE_TIMEOUT_IN_SECONDS
+import com.sample.network.ApiService
+import com.sample.network.networkHandler.BasicAuthInterceptor
+import com.sample.network.networkHandler.ResultCallAdapterFactory
+import com.sample.network.utils.BASE_URL
+import com.sample.network.utils.CONNECT_TIMEOUT_IN_SECONDS
+import com.sample.network.utils.READ_TIMEOUT_IN_SECONDS
+import com.sample.network.utils.WRITE_TIMEOUT_IN_SECONDS
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,10 +26,10 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(com.sample.network.utils.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(ResultCallAdapterFactory.create())
+            .addCallAdapterFactory(com.sample.network.networkHandler.ResultCallAdapterFactory.create())
             .build()
     }
 
@@ -49,8 +49,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
+    fun provideApiService(retrofit: Retrofit): com.sample.network.ApiService {
+        return retrofit.create(com.sample.network.ApiService::class.java)
     }
 
 }

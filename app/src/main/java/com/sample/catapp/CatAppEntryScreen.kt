@@ -16,13 +16,13 @@ fun CatAppEntryScreenApp() {
 
     NavHost(
         navController = navController,
-        startDestination = CatsDestinations.CATS_LIST.route
+        startDestination = CatsDestinations.CatsList.route
     ) {
-        composable(CatsDestinations.CATS_LIST.route) {
+        composable(CatsDestinations.CatsList.route) {
             val viewModel: CatListViewModel = hiltViewModel()
             CatList(navController, viewModel)
         }
-        composable(CatsDestinations.CAT_DETAIL.route) {
+        composable(CatsDestinations.CatDetail.route) {
             val viewModel: CatDetailViewModel = hiltViewModel()
             CatDetails(navController, viewModel)
         }

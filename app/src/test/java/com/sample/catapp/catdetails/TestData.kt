@@ -1,8 +1,9 @@
 package com.sample.catapp.catdetails
 
-import com.sample.catapp.catdetails.data.network.CatEntity
-import com.sample.catapp.catdetails.data.network.Image
-import com.sample.catapp.catdetails.data.network.Weight
+import com.sample.dtomodule.catdetails.database.CatEntity
+import com.sample.dtomodule.catdetails.database.Image
+import com.sample.dtomodule.catdetails.database.Weight
+
 
 fun getMockResponseForApiResponse(): List<CatEntity> {
     return listOf(

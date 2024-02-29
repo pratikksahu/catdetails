@@ -1,13 +1,10 @@
 package com.sample.catapp.di
-
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
 import com.sample.catapp.BuildConfig
-import com.sample.catapp.catdetails.data.db.CatDAO
-import com.sample.catapp.catdetails.data.db.CatDatabase
-import com.sample.catapp.catdetails.data.network.ImageInfoToStringConverter
-import com.sample.catapp.catdetails.data.network.WeightToStringConverter
+import com.sample.catapp.database.CatDatabase
+import com.sample.database.dao.CatDAO
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,5 +39,5 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideCatDAO(catDatabase: CatDatabase):CatDAO = catDatabase.provideCatDAO()
+    fun provideCatDAO(catDatabase: CatDatabase): CatDAO = catDatabase.provideCatDAO()
 }

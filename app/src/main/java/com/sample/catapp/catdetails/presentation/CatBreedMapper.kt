@@ -2,12 +2,12 @@ package com.sample.catapp.catdetails.presentation
 
 import com.sample.catdetails.CatItem
 import com.sample.catdetails.Image
-import com.sample.catapp.catdetails.data.network.CatEntity
-import com.sample.catapp.catdetails.data.network.Weight
+import com.sample.dtomodule.catdetails.database.CatEntity
+import com.sample.dtomodule.catdetails.database.Weight
 
-fun CatEntity.mapApiResponseToUiCatData(): CatItem {
+fun CatEntity.toUiCatData(): CatItem {
     return CatItem(
-        weight = getWeight(weight),
+        weight = weight?.toUiCatData(),
         id = id,
         name = name,
         cfaUrl = cfaUrl,
@@ -44,23 +44,16 @@ fun CatEntity.mapApiResponseToUiCatData(): CatItem {
         wikipediaUrl = wikipediaUrl,
         hypoallergenic = hypoallergenic,
         referenceImageId = referenceImageId,
-        image = getImage(image)
+        image = image?.toUiCatData()
     )
 }
-
-private fun getWeight(weight: Weight?): com.sample.catdetails.Weight? = weight?.let {
-    com.sample.catdetails.Weight(
-        imperial = weight.imperial,
-        metric = weight.metric
-    )
-}
-
-private fun getImage(image: com.sample.catapp.catdetails.data.network.Image?): Image? {
-    if (image == null) return null
-    return Image(
-        id = image.id,
-        width = image.width,
-        height = image.height,
-        url = image.url
-    )
-}
+private fun Weight.toUiCatData() = com.sample.catdetails.Weight(
+    imperial = imperial,
+    metric = metric
+)
+private fun com.sample.dtomodule.catdetails.database.Image.toUiCatData() = Image(
+    id = id,
+    width = width,
+    height = height,
+    url = url
+)

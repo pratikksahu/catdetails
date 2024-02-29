@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 rootProject.name = "IntuitSampleApp"
 include(":app")
 include(":catdetails")
+include(":network")
+include(":database")
+include(":dtomodule")

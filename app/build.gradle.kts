@@ -7,12 +7,6 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("io.gitlab.arturbosch.detekt")
 }
-val propertiesFile = rootProject.file("local.properties")
-val properties = Properties().apply {
-    load(propertiesFile.inputStream())
-}
-
-val catApiKey = properties.getProperty("CAT_API_KEY")
 
 android {
     namespace = "com.sample.catapp"
@@ -37,7 +31,6 @@ android {
 
     buildTypes {
         release {
-            buildConfigField("String", "CAT_API_KEY", "\"${catApiKey}\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -46,7 +39,6 @@ android {
         }
 
         debug {
-            buildConfigField("String", "CAT_API_KEY", "\"${catApiKey}\"")
         }
 
     }
@@ -71,6 +63,9 @@ val pagingVersion = "3.2.1"
 
 dependencies {
 
+    implementation(project(":database"))
+    implementation(project(":network"))
+    implementation(project(":dtomodule"))
     implementation(project(":catdetails"))
 
     implementation("androidx.core:core-ktx: 1.12.0")

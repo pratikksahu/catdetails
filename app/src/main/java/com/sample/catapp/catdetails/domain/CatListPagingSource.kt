@@ -1,15 +1,12 @@
 package com.sample.catapp.catdetails.domain
-
 import com.sample.catapp.catdetails.domain.usecase.FetchListUseCase
-import com.sample.catapp.catdetails.presentation.mapApiResponseToUiCatData
+import com.sample.catapp.catdetails.presentation.toUiCatData
 import com.sample.catapp.dispatcher.AppCoroutineDispatcher
-import com.sample.catapp.network.networkHandler.onError
-import com.sample.catapp.network.networkHandler.onException
-import com.sample.catapp.utils.PagingSourceHelper
 import com.sample.catdetails.CatItem
-import kotlinx.coroutines.CoroutineScope
+import com.sample.database.helper.PagingSourceHelper
+import com.sample.network.networkHandler.onError
+import com.sample.network.networkHandler.onException
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CatListPagingSource(
@@ -23,7 +20,7 @@ class CatListPagingSource(
     override suspend fun getEntities(pageNo: Int, limit: Int): List<CatItem> {
         return withContext(dispatcher.io) {
             fetchListUseCase.fromLocal(pageNo, limit)
-                .map { it.mapApiResponseToUiCatData() }
+                .map { it.toUiCatData() }
         }
     }
 

@@ -1,8 +1,8 @@
 package com.sample.catapp.catdetails.data
 
-import com.sample.catapp.catdetails.data.network.CatEntity
-import com.sample.catapp.network.networkHandler.ApiResult
 import com.sample.catdetails.CatItem
+import com.sample.dtomodule.catdetails.database.CatEntity
+import com.sample.network.networkHandler.ApiResult
 
 interface ICatRepository {
     suspend fun fetchCatDataRemote(

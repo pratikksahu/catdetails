@@ -7,7 +7,6 @@ import androidx.navigation.NavHostController
 import com.sample.catdetails.view.catdetails.DetailsOfCat
 import com.sample.catdetails.view.catlist.ListOfCats
 import com.sample.catapp.CatsDestinations
-import com.sample.catapp.catdetails.presentation.CatIntents
 import com.sample.catapp.catdetails.presentation.viewmodel.CatDetailViewModel
 import com.sample.catapp.catdetails.presentation.viewmodel.CatListViewModel
 import com.sample.catdetails.states.CatDetailUiState
@@ -21,7 +20,7 @@ fun CatList(navController: NavHostController, viewModel: CatListViewModel) {
             viewModel.invalidate()
         },
         onItemClick = {
-            navController.navigate(CatsDestinations.CAT_DETAIL.createRoute(it.id))
+            navController.navigate(CatsDestinations.CatDetail.createRoute(it.id))
         })
 }
 
